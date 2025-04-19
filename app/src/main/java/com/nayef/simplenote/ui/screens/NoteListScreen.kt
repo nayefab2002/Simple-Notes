@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.nayef.simplenote.data.Note
 import com.nayef.simplenote.data.NotesViewModel
+import com.nayef.simplenote.ui.components.BottomNavigationBar
 import com.nayef.simplenote.ui.components.NoteCard
 import com.nayef.simplenote.ui.components.NoteInputDialog
 import com.nayef.simplenote.ui.theme.poppins
@@ -48,7 +49,7 @@ fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp, fontFamily = poppins),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 15.dp)
         )
-    }) { padding ->
+    }, bottomBar = {BottomNavigationBar(navController,true)}) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(notes.size) { index ->
                 NoteCard(note = notes[index], onClicked = {

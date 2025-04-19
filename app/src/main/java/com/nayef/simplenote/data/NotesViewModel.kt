@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class NotesViewModel(application: Application):AndroidViewModel(application) {
+
     private val dao=NoteDatabase.getDatabase(application).noteDao()
 
     val notes=dao.getAllNotes().flowOn(Dispatchers.IO)
