@@ -38,10 +38,10 @@ interface NoteDao {
     suspend fun insertSampleNotes() {
         insertNotes(
             Note(title = "Groceries", content = "Buy bread", isDeleted = false),
-            Note(title = "Workout", content = "Go for a run", isDeleted = false),
+            Note(title = "Workout", content = "Go for a run", isDeleted = true),
             Note(title = "Study", content = "Review CIS-436 final study guide", isDeleted = false),
             Note(title = "Call Mom", content = "Check in and ask her about our summer trip", isDeleted = false),
-            Note(title = "Project Ideas", content = "Note app, soundboard, mood tracker", isDeleted = false)
+            Note(title = "Project Ideas", content = "Note app, soundboard, mood tracker", isDeleted = true)
         )
     }
 }
