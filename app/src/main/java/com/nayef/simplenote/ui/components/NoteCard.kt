@@ -10,36 +10,54 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nayef.simplenote.R
 import com.nayef.simplenote.data.Note
 import com.nayef.simplenote.ui.theme.poppins
 
+enum class NoteCardMode {
+    Active,
+    Trash
+}
+
 @Composable
-fun NoteCard(note: Note, onClicked: () -> Unit, onDelete: () -> Unit) {
-    Card(
-        modifier = Modifier
+fun NoteCard(
+    note: Note,
+    mode: NoteCardMode = NoteCardMode.Active,
+    onClicked: (() -> Unit)? = null,
+    onDelete: () -> Unit,
+    onRestore: (() -> Unit)? = null
+) {
+    val modifier = if (onClicked != null) {
+        Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable(onClick = onClicked), elevation = CardDefaults.cardElevation(4.dp)
+            .clickable(onClick = onClicked)
+    } else {
+        Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    }
+
+    Card(
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -50,8 +68,8 @@ fun NoteCard(note: Note, onClicked: () -> Unit, onDelete: () -> Unit) {
         ) {
             Column(
                 modifier = Modifier
-                    .weight(1f)  // Takes all available space except what IconButton needs
-                    .padding(16.dp),
+                    .weight(1f)
+                    .padding(16.dp)
             ) {
                 Text(
                     text = note.title,
@@ -65,25 +83,44 @@ fun NoteCard(note: Note, onClicked: () -> Unit, onDelete: () -> Unit) {
                     overflow = TextOverflow.Ellipsis
                 )
 
-                if (note.isPinned) {
+                if (note.isPinned && mode == NoteCardMode.Active) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Icon(imageVector = Icons.Default.Favorite, contentDescription = "Pinned")
                 }
             }
-            IconButton(
-                onClick = onDelete, colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = MaterialTheme.colorScheme.error
-                )
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.delete),
-                    contentDescription = "Delete"
 
-                )
+            if (mode == NoteCardMode.Active) {
+                IconButton(
+                    onClick = onDelete,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete")
+                }
+            } else if (mode == NoteCardMode.Trash) {
+                Row {
+                    if (onRestore != null) {
+                        IconButton(
+                            onClick = onRestore,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Icon(Icons.Default.Restore, contentDescription = "Restore")
+                        }
+                    }
+                    IconButton(
+                        onClick = onDelete,
+                        colors = IconButtonDefaults.iconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Icon(Icons.Default.DeleteForever, contentDescription = "Delete Forever")
+                    }
+                }
             }
-
         }
-
     }
 }
 

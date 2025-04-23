@@ -10,8 +10,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM notes ORDER BY isPinned DESC")
-    fun getAllNotes(): Flow<List<Note>>
+    @Query("SELECT * FROM notes WHERE isDeleted = 0")
+    fun getActiveNotes(): Flow<List<Note>>
+
+    @Query("SELECT * FROM notes WHERE isDeleted = 1")
+    fun getDeletedNotes(): Flow<List<Note>>
 
     @Query("SELECT * FROM notes WHERE id = :id LIMIT 1")
     suspend fun getNoteById(id: Int): Note?
@@ -27,5 +30,4 @@ interface NoteDao {
 
     @Delete
     suspend fun deleteNote(note: Note)
-
 }
