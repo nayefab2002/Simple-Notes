@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM notes WHERE isDeleted = 0")
+    @Query("SELECT * FROM notes WHERE isDeleted = 0 ORDER BY isPinned DESC, id DESC")
     fun getActiveNotes(): Flow<List<Note>>
 
     @Query("SELECT * FROM notes WHERE isDeleted = 1")
@@ -37,11 +37,11 @@ interface NoteDao {
 
     suspend fun insertSampleNotes() {
         insertNotes(
-            Note(title = "Groceries", content = "Buy bread", isDeleted = false),
-            Note(title = "Workout", content = "Go for a run", isDeleted = true),
-            Note(title = "Study", content = "Review CIS-436 final study guide", isDeleted = false),
-            Note(title = "Call Mom", content = "Check in and ask her about our summer trip", isDeleted = false),
-            Note(title = "Project Ideas", content = "Note app, soundboard, mood tracker", isDeleted = true)
+            Note(title = "Groceries", content = "Buy bread", isDeleted = false, isPinned = false),
+            Note(title = "Workout", content = "Go for a run", isDeleted = true, isPinned = false),
+            Note(title = "Study", content = "Review CIS-436 final study guide", isDeleted = false, isPinned = true),
+            Note(title = "Call Mom", content = "Check in and ask her about our summer trip", isDeleted = false, isPinned = false),
+            Note(title = "Project Ideas", content = "Note app, soundboard, mood tracker", isDeleted = true, isPinned = false),
         )
     }
 }

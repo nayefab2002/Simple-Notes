@@ -48,7 +48,11 @@ fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
                         showDialog = true
                         existingNote = notes[index]
                     },
-                    onDelete = { viewModel.moveNoteToTrash(notes[index]) }
+                    onDelete = { viewModel.moveNoteToTrash(notes[index]) },
+                    onPinToggle = {
+                        val toggled = notes[index].copy(isPinned = !notes[index].isPinned)
+                        viewModel.upsertNote(toggled)
+                    }
                 )
             }
         }
