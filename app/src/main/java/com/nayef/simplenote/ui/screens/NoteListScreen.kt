@@ -27,6 +27,7 @@ import com.nayef.simplenote.ui.components.BottomNavigationBar
 import com.nayef.simplenote.ui.components.NoteCard
 import com.nayef.simplenote.ui.components.NoteInputDialog
 import com.nayef.simplenote.ui.theme.poppins
+import com.nayef.simplenote.ui.components.SimpleNotesTopBar
 
 
 @Composable
@@ -44,11 +45,7 @@ fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
 
         }
     }, topBar = {
-        Text(
-            "SimpleNotes",
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp, fontFamily = poppins),
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 15.dp)
-        )
+        SimpleNotesTopBar("SimpleNotes")
     }, bottomBar = {BottomNavigationBar(navController,true)}) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(notes.size) { index ->
