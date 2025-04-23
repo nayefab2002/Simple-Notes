@@ -28,39 +28,37 @@ fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
     val notes by viewModel.activeNotes.collectAsState(initial = emptyList())
     var showDialog by remember { mutableStateOf(false) }
     var existingNote by remember { mutableStateOf<Note?>(null) }
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = {
-            showDialog = true
-            existingNote = null
-
-        }) {
-            Icon(Icons.Default.Add, contentDescription = "Add Note")
-
-        }
-    }, topBar = {
-        SimpleNotesTopBar("SimpleNotes")
-    }, bottomBar = {BottomNavigationBar(navController,true)}) { padding ->
-        LazyColumn(modifier = Modifier.padding(padding)) {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                showDialog = true
+                existingNote = null
+            }) {
+                Icon(Icons.Default.Add, contentDescription = "Add Note")
+            }
+        },
+        topBar = {
+            SimpleNotesTopBar("SimpleNotes")
+        },
+        bottomBar = {BottomNavigationBar(navController,true)}
+    ) {
+        padding -> LazyColumn(modifier = Modifier.padding(padding)) {
             items(notes.size) { index ->
                 NoteCard(note = notes[index], onClicked = {
                     showDialog = true
                     existingNote = notes[index]
-
                 }, onDelete = {
                     viewModel.moveNoteToTrash(notes[index])
                 })
             }
-
         }
+
         if (showDialog) {
             NoteInputDialog(
                 notesViewModel = viewModel,
                 existingNote = existingNote,
                 onDismiss = { showDialog = false }
             )
-
         }
-
     }
-
 }
