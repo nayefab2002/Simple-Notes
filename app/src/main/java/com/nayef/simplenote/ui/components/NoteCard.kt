@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -81,7 +82,8 @@ fun NoteCard(
                         ) {
                             Icon(
                                 imageVector = if (note.isPinned) Icons.Default.Star else Icons.Default.StarOutline,
-                                contentDescription = if (note.isPinned) "Unpin" else "Pin"
+                                contentDescription = if (note.isPinned) "Unpin" else "Pin",
+                                tint = if (note.isPinned) Color(0xFFDAA520) else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
