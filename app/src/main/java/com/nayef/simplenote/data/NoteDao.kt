@@ -3,6 +3,7 @@ package com.nayef.simplenote.data
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
@@ -30,4 +31,17 @@ interface NoteDao {
 
     @Delete
     suspend fun deleteNote(note: Note)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNotes(vararg notes: Note)
+
+    suspend fun insertSampleNotes() {
+        insertNotes(
+            Note(title = "Groceries", content = "Buy bread", isDeleted = false),
+            Note(title = "Workout", content = "Go for a run", isDeleted = false),
+            Note(title = "Study", content = "Review CIS-436 final study guide", isDeleted = false),
+            Note(title = "Call Mom", content = "Check in and ask her about our summer trip", isDeleted = false),
+            Note(title = "Project Ideas", content = "Note app, soundboard, mood tracker", isDeleted = false)
+        )
+    }
 }

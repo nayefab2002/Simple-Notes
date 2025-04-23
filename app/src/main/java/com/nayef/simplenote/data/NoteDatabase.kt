@@ -6,6 +6,9 @@ import androidx.room.migration.Migration
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Database(entities = [Note::class], version = 2)
@@ -29,6 +32,17 @@ abstract class NoteDatabase:RoomDatabase() {
                     "note_database"
                 )
                     .addMigrations(MIGRATION_1_2)
+                    .addCallback(object : RoomDatabase.Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            // Populate sample notes
+                            CoroutineScope(Dispatchers.IO).launch {
+                                getDatabase(context).noteDao().apply {
+                                    insertSampleNotes()
+                                }
+                            }
+                        }
+                    })
                     .build()
                     .also { INSTANCE = it }
             }
