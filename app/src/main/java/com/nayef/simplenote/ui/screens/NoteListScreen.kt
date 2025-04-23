@@ -31,7 +31,7 @@ import com.nayef.simplenote.ui.theme.poppins
 
 @Composable
 fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
-    val notes by viewModel.notes.collectAsState(initial = emptyList())
+    val notes by viewModel.activeNotes.collectAsState(initial = emptyList())
     var showDialog by remember { mutableStateOf(false) }
     var existingNote by remember { mutableStateOf<Note?>(null) }
     Scaffold(floatingActionButton = {
@@ -57,7 +57,7 @@ fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
                     existingNote = notes[index]
 
                 }, onDelete = {
-                    viewModel.deleteNote(notes[index])
+                    viewModel.moveNoteToTrash(notes[index])
                 })
             }
 
