@@ -27,21 +27,11 @@ import com.nayef.simplenote.ui.components.SimpleNotesTopBar
 @Composable
 fun TrashScreen(viewModel: NotesViewModel, navController: NavController) {
     val notes by viewModel.deletedNotes.collectAsState(initial = emptyList())
-    var showDialog by remember { mutableStateOf(false) }
-    var existingNote by remember { mutableStateOf<Note?>(null) }
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = {
-            showDialog = true
-            existingNote = null
-
-        }) {
-            Icon(Icons.Default.Add, contentDescription = "Add Note")
-
-        }
-    }, topBar = {
-        SimpleNotesTopBar("Trash")
-    }, bottomBar = {BottomNavigationBar(navController,true)}) { padding ->
-        LazyColumn(modifier = Modifier.padding(padding)) {
+    Scaffold(
+        topBar = { SimpleNotesTopBar("Trash") },
+        bottomBar = {BottomNavigationBar(navController,true)}
+    ) {
+        padding -> LazyColumn(modifier = Modifier.padding(padding)) {
             items(notes.size) { index ->
                 NoteCard(
                     note = notes[index],
@@ -50,7 +40,6 @@ fun TrashScreen(viewModel: NotesViewModel, navController: NavController) {
                     mode = NoteCardMode.Trash
                 )
             }
-
         }
     }
 }
