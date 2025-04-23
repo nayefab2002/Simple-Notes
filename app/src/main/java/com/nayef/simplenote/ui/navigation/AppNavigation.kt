@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nayef.simplenote.data.NotesViewModel
-import com.nayef.simplenote.ui.screens.NoteListScreen
+import com.nayef.simplenote.ui.screens.ActiveScreen
 import com.nayef.simplenote.ui.screens.TrashScreen
 
 @Composable
@@ -14,7 +14,7 @@ fun AppNavigation(viewModel: NotesViewModel) {
 
     NavHost(navController = navController, startDestination = NavigationRoutes.Active.route) {
         composable(NavigationRoutes.Active.route) {
-            NoteListScreen(viewModel = viewModel, navController = navController)
+            ActiveScreen(viewModel = viewModel, navController = navController)
         }
         composable(NavigationRoutes.Trash.route) {
             TrashScreen(viewModel = viewModel, navController = navController)
