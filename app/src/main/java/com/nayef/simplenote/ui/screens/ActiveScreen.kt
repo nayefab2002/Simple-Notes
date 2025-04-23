@@ -24,7 +24,7 @@ import com.nayef.simplenote.ui.components.TopAppBar
 
 
 @Composable
-fun NoteListScreen(viewModel: NotesViewModel, navController: NavController) {
+fun ActiveScreen(viewModel: NotesViewModel, navController: NavController) {
     val notes by viewModel.activeNotes.collectAsState(initial = emptyList())
     var showDialog by remember { mutableStateOf(false) }
     var existingNote by remember { mutableStateOf<Note?>(null) }
